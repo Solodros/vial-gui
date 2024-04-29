@@ -548,6 +548,44 @@ class keycodes_v5:
         "MI_BENDD": 0x5CB9,
         "MI_BENDU": 0x5CBA,
 
+
+
+    "UG_RGB_TOG": 31404,
+    "K_RGB_TOG": 31405,
+    "L_RGB_TOG": 31406,
+    "RGB_CT_SW": 31407,
+    "UG_RGB_MS": 31408,
+    "UG_RGB_MF": 31409,
+    "UG_RGB_MR": 31410,
+    "UG_RGB_HI": 31411,
+    "UG_RGB_HD": 31412,
+    "UG_RGB_SI": 31413,
+    "UG_RGB_SD": 31414,
+    "UG_RGB_VI": 31415,
+    "UG_RGB_VD": 31416,
+    "UG_RGB_SPI": 31417,
+    "UG_RGB_SPD": 31418,
+    "RGB_INDTOG": 31424,
+    "RGB_INDMF": 31425,
+    "RGB_INDMR": 31426,
+    "RGB_NUMTOG": 31427,
+    "RGB_NUMMF": 31428,
+    "RGB_NUMMR": 31429,
+    "RGB_CAPSTOG": 31430,
+    "RGB_CAPSMF": 31431,
+    "RGB_CAPSMR": 31432,
+    "RGB_SCROLLTOG": 31433,
+    "RGB_SCROLLMF": 31434,
+    "RGB_SCROLLMR": 31435,
+    "DIAL_BUT": 31419,
+    "DIAL_L": 31420,
+    "DIAL_R": 31421,
+    "DIAL_LC": 31422,
+    "DIAL_RC": 31423
+
+
+
+
         "RESET": 0x5C00,
 
         "FN_MO13": 0x5F10,

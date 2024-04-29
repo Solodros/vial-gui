@@ -166,85 +166,85 @@ KEYCODES_SPECIAL = [
 ]
 
 KEYCODES_BASIC_NUMPAD = [
-    K("KC_NUMLOCK", "Num\nLock", recorder_alias=["num lock"], alias=["KC_NLCK"]),
-    K("KC_KP_SLASH", "/", alias=["KC_PSLS"]),
-    K("KC_KP_ASTERISK", "*", alias=["KC_PAST"]),
-    K("KC_KP_MINUS", "-", alias=["KC_PMNS"]),
-    K("KC_KP_PLUS", "+", alias=["KC_PPLS"]),
-    K("KC_KP_ENTER", "Num\nEnter", alias=["KC_PENT"]),
-    K("KC_KP_1", "1", alias=["KC_P1"]),
-    K("KC_KP_2", "2", alias=["KC_P2"]),
-    K("KC_KP_3", "3", alias=["KC_P3"]),
-    K("KC_KP_4", "4", alias=["KC_P4"]),
-    K("KC_KP_5", "5", alias=["KC_P5"]),
-    K("KC_KP_6", "6", alias=["KC_P6"]),
-    K("KC_KP_7", "7", alias=["KC_P7"]),
-    K("KC_KP_8", "8", alias=["KC_P8"]),
-    K("KC_KP_9", "9", alias=["KC_P9"]),
-    K("KC_KP_0", "0", alias=["KC_P0"]),
-    K("KC_KP_DOT", ".", alias=["KC_PDOT"]),
-    K("KC_KP_EQUAL", "=", alias=["KC_PEQL"]),
-    K("KC_KP_COMMA", ",", alias=["KC_PCMM"]),
+     K("KC_NUMLOCK", "Num\nLock", "小键盘锁定键", recorder_alias=["num lock"], alias=["KC_NLCK"]),
+    K("KC_KP_SLASH", "/", "小键盘除号键", alias=["KC_PSLS"]),
+    K("KC_KP_ASTERISK", "*", "小键盘乘号键", alias=["KC_PAST"]),
+    K("KC_KP_MINUS", "-", "小键盘减号键", alias=["KC_PMNS"]),
+    K("KC_KP_PLUS", "+", "小键盘加号键", alias=["KC_PPLS"]),
+    K("KC_KP_ENTER", "Num\nEnter", "小键盘回车键", alias=["KC_PENT"]),
+    K("KC_KP_1", "1", "小键盘数字1键", alias=["KC_P1"]),
+    K("KC_KP_2", "2", "小键盘数字2键", alias=["KC_P2"]),
+    K("KC_KP_3", "3", "小键盘数字3键", alias=["KC_P3"]),
+    K("KC_KP_4", "4", "小键盘数字4键", alias=["KC_P4"]),
+    K("KC_KP_5", "5", "小键盘数字5键", alias=["KC_P5"]),
+    K("KC_KP_6", "6", "小键盘数字6键", alias=["KC_P6"]),
+    K("KC_KP_7", "7", "小键盘数字7键", alias=["KC_P7"]),
+    K("KC_KP_8", "8", "小键盘数字8键", alias=["KC_P8"]),
+    K("KC_KP_9", "9", "小键盘数字9键", alias=["KC_P9"]),
+    K("KC_KP_0", "0", "小键盘数字0键", alias=["KC_P0"]),
+    K("KC_KP_DOT", ".", "小键盘点键", alias=["KC_PDOT"]),
+    K("KC_KP_EQUAL", "=", "小键盘等于键", alias=["KC_PEQL"]),
+    K("KC_KP_COMMA", ",", "小键盘COMMA键", alias=["KC_PCMM"]),
 ]
 
 KEYCODES_BASIC_NAV = [
-    K("KC_PSCREEN", "Print\nScreen", alias=["KC_PSCR"]),
-    K("KC_SCROLLLOCK", "Scroll\nLock", recorder_alias=["scroll lock"], alias=["KC_SLCK", "KC_BRMD"]),
-    K("KC_PAUSE", "Pause", recorder_alias=["pause", "break"], alias=["KC_PAUS", "KC_BRK", "KC_BRMU"]),
-    K("KC_INSERT", "Insert", recorder_alias=["insert"], alias=["KC_INS"]),
-    K("KC_HOME", "Home", recorder_alias=["home"]),
-    K("KC_PGUP", "Page\nUp", recorder_alias=["page up"]),
-    K("KC_DELETE", "Del", recorder_alias=["delete"], alias=["KC_DEL"]),
-    K("KC_END", "End", recorder_alias=["end"]),
-    K("KC_PGDOWN", "Page\nDown", recorder_alias=["page down"], alias=["KC_PGDN"]),
-    K("KC_RIGHT", "Right", recorder_alias=["right"], alias=["KC_RGHT"]),
-    K("KC_LEFT", "Left", recorder_alias=["left"]),
-    K("KC_DOWN", "Down", recorder_alias=["down"]),
-    K("KC_UP", "Up", recorder_alias=["up"]),
+    K("KC_PSCREEN", "Print\nScreen", "截屏键", alias=["KC_PSCR"]),
+    K("KC_SCROLLLOCK", "Scroll\nLock", "滚动锁定键", recorder_alias=["scroll lock"], alias=["KC_SLCK", "KC_BRMD"]),
+    K("KC_PAUSE", "Pause", "暂停键", recorder_alias=["pause", "break"], alias=["KC_PAUS", "KC_BRK", "KC_BRMU"]),
+    K("KC_INSERT", "Insert", "插入键", recorder_alias=["insert"], alias=["KC_INS"]),
+    K("KC_HOME", "Home", "HOME键", recorder_alias=["home"]),
+    K("KC_PGUP", "Page\nUp", "上翻键", recorder_alias=["page up"]),
+    K("KC_DELETE", "Del", "删除键", recorder_alias=["delete"], alias=["KC_DEL"]),
+    K("KC_END", "End", "END键", recorder_alias=["end"]),
+    K("KC_PGDOWN", "Page\nDown", "下翻键", recorder_alias=["page down"], alias=["KC_PGDN"]),
+    K("KC_RIGHT", "→", "右键", recorder_alias=["right"], alias=["KC_RGHT"]),
+    K("KC_LEFT", "←", "左键", recorder_alias=["left"]),
+    K("KC_DOWN", "↓", "下键", recorder_alias=["down"]),
+    K("KC_UP", "↑", "上键", recorder_alias=["up"]),
 ]
 
 KEYCODES_BASIC = [
-    K("KC_A", "A", printable="a", recorder_alias=["a"]),
-    K("KC_B", "B", printable="b", recorder_alias=["b"]),
-    K("KC_C", "C", printable="c", recorder_alias=["c"]),
-    K("KC_D", "D", printable="d", recorder_alias=["d"]),
-    K("KC_E", "E", printable="e", recorder_alias=["e"]),
-    K("KC_F", "F", printable="f", recorder_alias=["f"]),
-    K("KC_G", "G", printable="g", recorder_alias=["g"]),
-    K("KC_H", "H", printable="h", recorder_alias=["h"]),
-    K("KC_I", "I", printable="i", recorder_alias=["i"]),
-    K("KC_J", "J", printable="j", recorder_alias=["j"]),
-    K("KC_K", "K", printable="k", recorder_alias=["k"]),
-    K("KC_L", "L", printable="l", recorder_alias=["l"]),
-    K("KC_M", "M", printable="m", recorder_alias=["m"]),
-    K("KC_N", "N", printable="n", recorder_alias=["n"]),
-    K("KC_O", "O", printable="o", recorder_alias=["o"]),
-    K("KC_P", "P", printable="p", recorder_alias=["p"]),
-    K("KC_Q", "Q", printable="q", recorder_alias=["q"]),
-    K("KC_R", "R", printable="r", recorder_alias=["r"]),
-    K("KC_S", "S", printable="s", recorder_alias=["s"]),
-    K("KC_T", "T", printable="t", recorder_alias=["t"]),
-    K("KC_U", "U", printable="u", recorder_alias=["u"]),
-    K("KC_V", "V", printable="v", recorder_alias=["v"]),
-    K("KC_W", "W", printable="w", recorder_alias=["w"]),
-    K("KC_X", "X", printable="x", recorder_alias=["x"]),
-    K("KC_Y", "Y", printable="y", recorder_alias=["y"]),
-    K("KC_Z", "Z", printable="z", recorder_alias=["z"]),
-    K("KC_1", "!\n1", printable="1", recorder_alias=["1"]),
-    K("KC_2", "@\n2", printable="2", recorder_alias=["2"]),
-    K("KC_3", "#\n3", printable="3", recorder_alias=["3"]),
-    K("KC_4", "$\n4", printable="4", recorder_alias=["4"]),
-    K("KC_5", "%\n5", printable="5", recorder_alias=["5"]),
-    K("KC_6", "^\n6", printable="6", recorder_alias=["6"]),
-    K("KC_7", "&\n7", printable="7", recorder_alias=["7"]),
-    K("KC_8", "*\n8", printable="8", recorder_alias=["8"]),
-    K("KC_9", "(\n9", printable="9", recorder_alias=["9"]),
-    K("KC_0", ")\n0", printable="0", recorder_alias=["0"]),
-    K("KC_ENTER", "Enter", recorder_alias=["enter"], alias=["KC_ENT"]),
-    K("KC_ESCAPE", "Esc", recorder_alias=["esc"], alias=["KC_ESC"]),
-    K("KC_BSPACE", "Bksp", recorder_alias=["backspace"], alias=["KC_BSPC"]),
-    K("KC_TAB", "Tab", recorder_alias=["tab"]),
-    K("KC_SPACE", "Space", recorder_alias=["space"], alias=["KC_SPC"]),
+    K("KC_A", "A", "A键", printable="a", recorder_alias=["a"]),
+    K("KC_B", "B", "B键", printable="b", recorder_alias=["b"]),
+    K("KC_C", "C", "C键", printable="c", recorder_alias=["c"]),
+    K("KC_D", "D", "D键", printable="d", recorder_alias=["d"]),
+    K("KC_E", "E", "E键", printable="e", recorder_alias=["e"]),
+    K("KC_F", "F", "F键", printable="f", recorder_alias=["f"]),
+    K("KC_G", "G", "G键", printable="g", recorder_alias=["g"]),
+    K("KC_H", "H", "H键", printable="h", recorder_alias=["h"]),
+    K("KC_I", "I", "I键", printable="i", recorder_alias=["i"]),
+    K("KC_J", "J", "J键", printable="j", recorder_alias=["j"]),
+    K("KC_K", "K", "K键", printable="k", recorder_alias=["k"]),
+    K("KC_L", "L", "L键", printable="l", recorder_alias=["l"]),
+    K("KC_M", "M", "M键", printable="m", recorder_alias=["m"]),
+    K("KC_N", "N", "N键", printable="n", recorder_alias=["n"]),
+    K("KC_O", "O", "O键", printable="o", recorder_alias=["o"]),
+    K("KC_P", "P", "P键", printable="p", recorder_alias=["p"]),
+    K("KC_Q", "Q", "Q键", printable="q", recorder_alias=["q"]),
+    K("KC_R", "R", "R键", printable="r", recorder_alias=["r"]),
+    K("KC_S", "S", "S键", printable="s", recorder_alias=["s"]),
+    K("KC_T", "T", "T键", printable="t", recorder_alias=["t"]),
+    K("KC_U", "U", "U键", printable="u", recorder_alias=["u"]),
+    K("KC_V", "V", "V键", printable="v", recorder_alias=["v"]),
+    K("KC_W", "W", "W键", printable="w", recorder_alias=["w"]),
+    K("KC_X", "X", "X键", printable="x", recorder_alias=["x"]),
+    K("KC_Y", "Y", "Y键", printable="y", recorder_alias=["y"]),
+    K("KC_Z", "Z", "Z键", printable="z", recorder_alias=["z"]),
+    K("KC_1", "!\n1",  "1键", printable="1", recorder_alias=["1"]),
+    K("KC_2", "@\n2",  "2键",printable="2", recorder_alias=["2"]),
+    K("KC_3", "#\n3",  "3键", printable="3", recorder_alias=["3"]),
+    K("KC_4", "$\n4",  "4键", printable="4", recorder_alias=["4"]),
+    K("KC_5", "%\n5",  "5键", printable="5", recorder_alias=["5"]),
+    K("KC_6", "^\n6",  "6键", printable="6", recorder_alias=["6"]),
+    K("KC_7", "&\n7",  "7键", printable="7", recorder_alias=["7"]),
+    K("KC_8", "*\n8",  "8键", printable="8", recorder_alias=["8"]),
+    K("KC_9", "(\n9",  "9键", printable="9", recorder_alias=["9"]),
+    K("KC_0", ")\n0",  "0键", printable="0", recorder_alias=["0"]),
+    K("KC_ENTER", "Enter", "回车键", recorder_alias=["enter"], alias=["KC_ENT"]),
+    K("KC_ESCAPE", "Esc", "Esc键", recorder_alias=["esc"], alias=["KC_ESC"]),
+    K("KC_BSPACE", "Bksp", "退格键", recorder_alias=["backspace"], alias=["KC_BSPC"]),
+    K("KC_TAB", "Tab", "制表键", recorder_alias=["tab"]),
+    K("KC_SPACE", "Space", "空格键", recorder_alias=["space"], alias=["KC_SPC"]),
     K("KC_MINUS", "_\n-", printable="-", recorder_alias=["-"], alias=["KC_MINS"]),
     K("KC_EQUAL", "+\n=", printable="=", recorder_alias=["="], alias=["KC_EQL"]),
     K("KC_LBRACKET", "{\n[", printable="[", recorder_alias=["["], alias=["KC_LBRC"]),
@@ -256,19 +256,20 @@ KEYCODES_BASIC = [
     K("KC_COMMA", "<\n,", printable=",", recorder_alias=[","], alias=["KC_COMM"]),
     K("KC_DOT", ">\n.", printable=".", recorder_alias=["."]),
     K("KC_SLASH", "?\n/", printable="/", recorder_alias=["/"], alias=["KC_SLSH"]),
-    K("KC_CAPSLOCK", "Caps\nLock", recorder_alias=["caps lock"], alias=["KC_CLCK", "KC_CAPS"]),
-    K("KC_F1", "F1", recorder_alias=["f1"]),
-    K("KC_F2", "F2", recorder_alias=["f2"]),
-    K("KC_F3", "F3", recorder_alias=["f3"]),
-    K("KC_F4", "F4", recorder_alias=["f4"]),
-    K("KC_F5", "F5", recorder_alias=["f5"]),
-    K("KC_F6", "F6", recorder_alias=["f6"]),
-    K("KC_F7", "F7", recorder_alias=["f7"]),
-    K("KC_F8", "F8", recorder_alias=["f8"]),
-    K("KC_F9", "F9", recorder_alias=["f9"]),
-    K("KC_F10", "F10", recorder_alias=["f10"]),
-    K("KC_F11", "F11", recorder_alias=["f11"]),
-    K("KC_F12", "F12", recorder_alias=["f12"]),
+    K("KC_CAPSLOCK", "Caps\nLock", "大小写锁定键", recorder_alias=["caps lock"], alias=["KC_CLCK", "KC_CAPS"]),
+    K("KC_F1", "F1", "F1键", recorder_alias=["f1"]),
+    K("KC_F2", "F2", "F2键", recorder_alias=["f2"]),
+    K("KC_F3", "F3", "F3键", recorder_alias=["f3"]),
+    K("KC_F4", "F4", "F4键", recorder_alias=["f4"]),
+    K("KC_F5", "F5", "F5键", recorder_alias=["f5"]),
+    K("KC_F6", "F6", "F6键", recorder_alias=["f6"]),
+    K("KC_F7", "F7", "F7键", recorder_alias=["f7"]),
+    K("KC_F8", "F8", "F8键", recorder_alias=["f8"]),
+    K("KC_F9", "F9", "F9键", recorder_alias=["f9"]),
+    K("KC_F10", "F10", "F10键", recorder_alias=["f10"]),
+    K("KC_F11", "F11", "F11键", recorder_alias=["f11"]),
+    K("KC_F12", "F12", "F12键", recorder_alias=["f12"]),
+
 
     K("KC_APPLICATION", "Menu", recorder_alias=["menu", "left menu", "right menu"], alias=["KC_APP"]),
     K("KC_LCTRL", "LCtrl", recorder_alias=["left ctrl", "ctrl"], alias=["KC_LCTL"]),
@@ -333,16 +334,16 @@ KEYCODES_BOOT = [
 ]
 
 KEYCODES_MODIFIERS = [
-    K("OSM(MOD_LSFT)", "OSM\nLSft", "Enable Left Shift for one keypress"),
-    K("OSM(MOD_LCTL)", "OSM\nLCtl", "Enable Left Control for one keypress"),
-    K("OSM(MOD_LALT)", "OSM\nLAlt", "Enable Left Alt for one keypress"),
-    K("OSM(MOD_LGUI)", "OSM\nLGUI", "Enable Left GUI for one keypress"),
-    K("OSM(MOD_RSFT)", "OSM\nRSft", "Enable Right Shift for one keypress"),
-    K("OSM(MOD_RCTL)", "OSM\nRCtl", "Enable Right Control for one keypress"),
-    K("OSM(MOD_RALT)", "OSM\nRAlt", "Enable Right Alt for one keypress"),
-    K("OSM(MOD_RGUI)", "OSM\nRGUI", "Enable Right GUI for one keypress"),
-    K("OSM(MOD_LCTL|MOD_LSFT)", "OSM\nCS", "Enable Left Control and Shift for one keypress"),
-    K("OSM(MOD_LCTL|MOD_LALT)", "OSM\nCA", "Enable Left Control and Alt for one keypress"),
+    K("OSM(MOD_LSFT)", "OSM\nLSft", "按下激活左Shift键"),
+    K("OSM(MOD_LCTL)", "OSM\nLCtl", "按下激活左Ctrl键"),
+    K("OSM(MOD_LALT)", "OSM\nLAlt", "按下激活左Alt键"),
+    K("OSM(MOD_LGUI)", "OSM\nLGUI", "按下激活左Gui键"),
+    K("OSM(MOD_RSFT)", "OSM\nRSft", "按下激活右Shift键"),
+    K("OSM(MOD_RCTL)", "OSM\nRCtl", "按下激活右Ctrl键"),
+    K("OSM(MOD_RALT)", "OSM\nRAlt", "按下激活右Alt键"),
+    K("OSM(MOD_RGUI)", "OSM\nRGUI", "按下激活右Gui键"),
+    K("OSM(MOD_LCTL|MOD_LSFT)", "OSM\nCS", "按下激活左Ctrl和左Shift键"),
+    K("OSM(MOD_LCTL|MOD_LALT)", "OSM\nCA", "按下激活左Ctrl和左Alt键"),
     K("OSM(MOD_LCTL|MOD_LGUI)", "OSM\nCG", "Enable Left Control and GUI for one keypress"),
     K("OSM(MOD_LSFT|MOD_LALT)", "OSM\nSA", "Enable Left Shift and Alt for one keypress"),
     K("OSM(MOD_LSFT|MOD_LGUI)", "OSM\nSG", "Enable Left Shift and GUI for one keypress"),
@@ -361,6 +362,7 @@ KEYCODES_MODIFIERS = [
     K("OSM(MOD_RSFT|MOD_RALT|MOD_RGUI)", "OSM\nRSAG", "Enable Right Shift, Alt, and GUI for one keypress"),
     K("OSM(MOD_MEH)", "OSM\nMeh", "Enable Left Control, Shift, and Alt for one keypress"),
     K("OSM(MOD_HYPR)", "OSM\nHyper", "Enable Left Control, Shift, Alt, and GUI for one keypress"),
+
     K("OSM(MOD_RCTL|MOD_RSFT|MOD_RALT)", "OSM\nRMeh", "Enable Right Control, Shift, and Alt for one keypress"),
     K("OSM(MOD_RCTL|MOD_RSFT|MOD_RALT|MOD_RGUI)", "OSM\nRHyp", "Enable Right Control, Shift, Alt, and GUI for one keypress"),
 
@@ -762,6 +764,70 @@ KEYCODES_MIDI_ADVANCED = [
     K("MI_BENDU", "ᴹᴵᴰᴵ\nBendᵁᴾ", "Midi bend pitch up"),
 ]
 
+KEYCODES_LIGHTS = []
+
+KEYCODES_LIGHTING = []
+
+KEYCODES_RGB_MATRIX = []
+
+KEYCODES_RGB_MATRIX_CONTROL_ADV = [
+    K("UG_RGB_TOG", "底灯\n开关", "切换底灯开关状态", alias=["UNDERGLOW_RGB_TOG"]),
+    K("K_RGB_TOG", "轴灯\n开关", "切换轴灯开关状态", alias=["KEY_RGB_TOG"]),
+]
+
+KEYCODES_RGB_MATRIX_CONTROL_ADV_LOGO = [
+    K("L_RGB_TOG", "Logo灯\n开关", "切换Logo灯开关状态", alias=["LOGO_RGB_TOG"]),
+]
+
+KEYCODES_RGB_MATRIX_CONTROL_BASE = [
+    K("RGB_CT_SW", "灯光\n切换", "切换不同区域灯光开关状态", alias=["RGB_CONTROL_SW"]),
+]
+
+KEYCODES_UG_RGB_MATRIX_BASE = [
+    K("UG_RGB_MS", "底灯\n同步", "底灯和轴灯灯效同步", alias=["UNDERGLOW_RGB_MODE_SYNC"]),
+    K("UG_RGB_MF", "底灯\n灯效+", "下一个底灯灯效", alias=["UNDERGLOW_RGB_MODE_FORWARD"]),
+    K("UG_RGB_MR", "底灯\n灯效-", "上一个底灯灯效", alias=["UNDERGLOW_RGB_MODE_REVERSE"]),
+]
+
+KEYCODES_UG_RGB_MATRIX_ADV = [
+    K("UG_RGB_HI", "底灯\n色相+", "增加底灯色相", alias=["UNDERGLOW_RGB_HUE_INCREASE"]),
+    K("UG_RGB_HD", "底灯\n色相-", "降低底灯色相", alias=["UNDERGLOW_RGB_HUE_DECREASE"]),
+    K("UG_RGB_SI", "底灯\n饱和+", "增加底灯饱和度", alias=["UNDERGLOW_RGB_SAT_INCREASE"]),
+    K("UG_RGB_SD", "底灯\n饱和-", "降低底灯饱和度", alias=["UNDERGLOW_RGB_SAT_DECREASE"]),
+    K("UG_RGB_VI", "底灯\n亮度+", "增加底灯亮度", alias=["UNDERGLOW_RGB_VAL_INCREASE"]),
+    K("UG_RGB_VD", "底灯\n亮度-", "降低底灯亮度", alias=["UNDERGLOW_RGB_VAL_DECREASE"]),
+    K("UG_RGB_SPI", "底灯\n速度+", "增加底灯灯效速度", alias=["UNDERGLOW_RGB_SPEED_INCREASE"]),
+    K("UG_RGB_SPD", "底灯\n速度-", "降低底灯灯效速度", alias=["UNDERGLOW_RGB_SPEED_DECREASE"]),
+]
+
+KEYCODES_RGB_MATRIX_IND = [
+    K("RGB_INDTOG", "指示灯\n开关", "指示灯开关", alias=["RGB_IND_TOGGLE"]),
+    K("RGB_INDMF", "指示灯\n灯效+", "下一个指示灯灯效", alias=["RGB_IND_MODE_FORWARD"]),
+    K("RGB_INDMR", "指示灯\n灯效-", "上一个指示灯灯效", alias=["RGB_IND_MODE_REVERSE"]),
+]
+
+KEYCODES_RGB_MATRIX_IND_ADV= [
+    K("RGB_NUMTOG", "Num\nLock\n开关", "Num Lock指示灯开关", alias=["RGB_IND_NUM_LOCK_TOGGLE"]),
+    K("RGB_NUMMF", "Num\nLock\n灯效+", "下一个Num Lock指示灯灯效", alias=["RGB_IND_NUM_LOCK_MODE_FORWARD"]),
+    K("RGB_NUMMR", "Num\nLock\n灯效-", "上一个Num Lock指示灯灯效", alias=["RGB_IND_NUM_LOCK_MODE_REVERSE"]),
+    K("RGB_CAPSTOG", "Caps\nLock\n开关", "Caps Lock指示灯开关", alias=["RGB_IND_CAPS_LOCK_TOGGLE"]),
+    K("RGB_CAPSMF", "Caps\nLock\n灯效+", "下一个Caps Lock指示灯灯效", alias=["RGB_IND_CAPS_LOCK_MODE_FORWARD"]),
+    K("RGB_CAPSMR", "Caps\nLock\n灯效-", "上一个Caps Lock指示灯灯效", alias=["RGB_IND_CAPS_LOCK_MODE_REVERSE"]),
+    K("RGB_SCROLLTOG", "Scroll\nLock\n开关", "Scroll Lock指示灯开关", alias=["RGB_IND_SCROLL_LOCK_TOGGLE"]),
+    K("RGB_SCROLLMF", "Scroll\nLock\n灯效+", "下一个Scroll Lock指示灯灯效", alias=["RGB_IND_SCROLL_LOCK_MODE_FORWARD"]),
+    K("RGB_SCROLLMR", "Scroll\nLock\n灯效-", "上一个Scroll Lock指示灯灯效", alias=["RGB_IND_SCROLL_LOCK_MODE_REVERSE"]),
+]
+
+KEYCODES_DIAL = []
+
+KEYCODES_DIAL_BASE = [
+    K("DIAL_BUT", "滚轮\n按钮", "模拟win10滚轮设备按下", alias=["RADIAL_BUTTON"]),
+    K("DIAL_L", "滚轮\n逆转", "模拟win10滚轮设备逆时针旋转", alias=["RADIAL_LEFT"]),
+    K("DIAL_R", "滚轮\n顺转", "模拟win10滚轮设备顺时针旋转", alias=["RADIAL_RIGHT"]),
+    K("DIAL_LC", "滚轮\n持续\n逆转", "模拟win10滚轮设备持续逆时针旋转", alias=["RADIAL_LEFT_CONTINUE"]),
+    K("DIAL_RC", "滚轮\n持续\n顺转", "模拟win10滚轮设备持续顺时针旋转", alias=["RADIAL_BUTTON_CONTINUE"]),
+]
+
 KEYCODES_HIDDEN = []
 for x in range(256):
     KEYCODES_HIDDEN.append(K("TD({})".format(x), "TD({})".format(x)))
@@ -779,7 +845,8 @@ def recreate_keycodes():
     KEYCODES.clear()
     KEYCODES.extend(KEYCODES_SPECIAL + KEYCODES_BASIC + KEYCODES_SHIFTED + KEYCODES_ISO + KEYCODES_LAYERS +
                     KEYCODES_BOOT + KEYCODES_MODIFIERS + KEYCODES_QUANTUM + KEYCODES_BACKLIGHT + KEYCODES_MEDIA +
-                    KEYCODES_TAP_DANCE + KEYCODES_MACRO + KEYCODES_USER + KEYCODES_HIDDEN + KEYCODES_MIDI)
+                    KEYCODES_TAP_DANCE + KEYCODES_MACRO + KEYCODES_USER + KEYCODES_HIDDEN + KEYCODES_MIDI +
+                    KEYCODES_LIGHTS + KEYCODES_DIAL)
     KEYCODES_MAP.clear()
     RAWCODES_MAP.clear()
     for keycode in KEYCODES:
@@ -792,9 +859,9 @@ def create_user_keycodes():
     for x in range(16):
         KEYCODES_USER.append(
             Keycode(
-                "USER{:02}".format(x),
-                "User {}".format(x),
-                "User keycode {}".format(x)
+                "自定义{:02}".format(x),
+                "自定义 {}".format(x),
+                "自定义键值 {}".format(x)
             )
         )
 
@@ -884,7 +951,47 @@ def recreate_keyboard_keycodes(keyboard):
     else:
         create_user_keycodes()
 
+ KEYCODES_DIAL.clear()
+    if keyboard.dial == True:
+        KEYCODES_DIAL.extend(KEYCODES_DIAL_BASE)
+
+    KEYCODES_LIGHTING.clear()
+    if keyboard.lighting_qmk_backlight:
+        KEYCODES_LIGHTING.extend(KEYCODES_BACKLIGHT)
+
+    if keyboard.lighting_qmk_rgblight or keyboard.lighting_vialrgb:
+        KEYCODES_LIGHTING.extend(KEYCODES_RGBLIGHT)
+
+    if keyboard.lighting_qmk_rgblight:
+        KEYCODES_LIGHTING.extend(KEYCODES_RGBLIGHT_MODE)
+
+    KEYCODES_RGB_MATRIX.clear()
+    if keyboard.rgb_matrix_control == "basic":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_RGB_MATRIX_CONTROL_BASE)
+
+    if keyboard.rgb_matrix_control == "advanced":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_RGB_MATRIX_CONTROL_ADV)
+
+    if keyboard.logo_rgb == True and keyboard.rgb_matrix_control == "advanced":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_RGB_MATRIX_CONTROL_ADV_LOGO)
+
+    if keyboard.rgb_matrix_control == "basic" or keyboard.underglow_rgb_matrix == "advanced":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_UG_RGB_MATRIX_BASE)
+
+    if keyboard.underglow_rgb_matrix == "advanced":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_UG_RGB_MATRIX_ADV)
+
+    if keyboard.rgb_indicators == "base":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_RGB_MATRIX_IND)
+
+    if keyboard.rgb_indicators == "advanced":
+        KEYCODES_RGB_MATRIX.extend(KEYCODES_RGB_MATRIX_IND_ADV)
+
     create_midi_keycodes(keyboard.midi)
+
+    KEYCODES_LIGHTS.clear()
+    KEYCODES_LIGHTS.extend(KEYCODES_LIGHTING)
+    KEYCODES_LIGHTS.extend(KEYCODES_RGB_MATRIX)
 
     recreate_keycodes()
 

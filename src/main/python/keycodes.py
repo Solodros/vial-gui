@@ -121,7 +121,7 @@ KEYCODES_SPECIAL = [
 ]
 
 KEYCODES_BASIC_NUMPAD = [
-     K(0x53, "KC_NUMLOCK", "Num\nLock", "小键盘锁定键", recorder_alias=["num lock"], alias=["KC_NLCK"]),
+    K(0x53, "KC_NUMLOCK", "Num\nLock", "小键盘锁定键", recorder_alias=["num lock"], alias=["KC_NLCK"]),
     K(0x54, "KC_KP_SLASH", "/", "小键盘除号键", alias=["KC_PSLS"]),
     K(0x55, "KC_KP_ASTERISK", "*", "小键盘乘号键", alias=["KC_PAST"]),
     K(0x56, "KC_KP_MINUS", "-", "小键盘减号键", alias=["KC_PMNS"]),
@@ -434,7 +434,7 @@ KEYCODES_QUANTUM = [
     K(23559, "MAGIC_SWAP_GRAVE_ESC", "交换\n`\nEsc", "交换 ` 和 Esc", alias=["GE_SWAP"]),
     K(23568, "MAGIC_UNSWAP_GRAVE_ESC", "恢复\n`\nEsc", "取消交换 ` 和 Esc", alias=["GE_NORM"]),
     K(23560, "MAGIC_SWAP_BACKSLASH_BACKSPACE", "交换\n\\\nBS", "交换 \\ 和 Backspace", alias=["BS_SWAP"]),
-    K(23569, "MAGIC_UNSWAP_BACKSLASH_BACKSPACE", "恢复\n\\\nBS", "取消交换 \\ 和 Backspace",
+    K(23569, "MAGIC_UNSWAP_BACKSLASH_BACKSPACE", "恢复\n\\\nBS", "取消交换 \\ 和 Backspace",),
     K(23561, "MAGIC_HOST_NKRO", "全键\n无冲\n开启", "启用全键无冲", alias=["NK_ON"]),
     K(23570, "MAGIC_UNHOST_NKRO", "全键\n无冲\n关闭", "关闭全键无冲", alias=["NK_OFF"]),
     K(23572, "MAGIC_TOGGLE_NKRO", "切换\n全键\n无冲", "切换全键无冲", alias=["NK_TOGG"]),
