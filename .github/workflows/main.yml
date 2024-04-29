@@ -53,7 +53,7 @@ jobs:
 #        ./pkg2appimage-*/pkg2appimage misc/Vial.yml
 #        mv out/Vial-*.AppImage out/Vial-x86_64.AppImage
 
-#    - uses: actions/upload-artifact@v3
+#    - uses: actions/upload-artifact@v4
 #      with:
 #        name: vial-linux
 #        path: out/Vial-x86_64.AppImage
@@ -89,7 +89,7 @@ jobs:
 #        fbs freeze
 #        hdiutil create -volname Vial-CN  -srcfolder "target/Vial-CN.app" -ov -format UDZO vial-mac.dmg
 
-#    - uses: actions/upload-artifact@v3
+#    - uses: actions/upload-artifact@v4
 #      with:
 #        name: vial-mac
 #        path: vial-mac.dmg
@@ -121,7 +121,7 @@ jobs:
         fbs freeze
         Compress-Archive -Path "target\Vial-CN" -DestinationPath vial-win.zip
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: vial-CN-win
         path: vial-win.zip
@@ -132,7 +132,7 @@ jobs:
         . .\venv\Scripts\activate.ps1
         fbs installer
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: vial-win-installer
         path: target\Vial-CNSetup.exe
