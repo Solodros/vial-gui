@@ -1,6 +1,18 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:  # 允许手动触发
+    inputs:
+      run:
+        description: 'Run the workflow'
+        required: false
+        default: 'yes'
 
 jobs:
   build-linux:
