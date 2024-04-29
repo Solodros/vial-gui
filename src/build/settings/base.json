@@ -1,6 +1,6 @@
 {
     "app_name": "Vial-CN",
-    "author": "xyz",
+    "author": "Solodros",
     "main_module": "src/main/python/main.py",
     "version": "0.7.1"
 }
