@@ -72,13 +72,13 @@ class OptionsUI(QWidget):
 
         container = QVBoxLayout()
 
-        self.opt_activation_trigger_down = CheckBoxNoPadding("Activate when the trigger key is pressed down")
-        self.opt_activation_required_mod_down = CheckBoxNoPadding("Activate when a necessary modifier is pressed down")
-        self.opt_activation_negative_mod_up = CheckBoxNoPadding("Activate when a negative modifier is released")
-        self.opt_one_mod = CheckBoxNoPadding("Activate on one modifier")
-        self.opt_no_reregister_trigger = CheckBoxNoPadding("Don't deactivate when another key is pressed down")
+        self.opt_activation_trigger_down = CheckBoxNoPadding("触发键按下时激活")
+        self.opt_activation_required_mod_down = CheckBoxNoPadding("触发修饰键按下时激活")
+        self.opt_activation_negative_mod_up = CheckBoxNoPadding("失效修饰键释放时激活")
+        self.opt_one_mod = CheckBoxNoPadding("任一修饰键按下时激活")
+        self.opt_no_reregister_trigger = CheckBoxNoPadding("其他键按下时不失效")
         self.opt_no_unregister_on_other_key_down = CheckBoxNoPadding(
-            "Don't register the trigger key again after the override is deactivated")
+            "键值覆盖失效后,触发键不触发")
 
         for w in [self.opt_activation_trigger_down, self.opt_activation_required_mod_down,
                   self.opt_activation_negative_mod_up, self.opt_one_mod, self.opt_no_reregister_trigger,
@@ -199,28 +199,28 @@ class KeyOverrideEntryUI(QObject):
         self.w2 = make_scrollable(l)
 
     def populate_container(self):
-        self.container.addWidget(QLabel("Enable"), 0, 0)
+        self.container.addWidget(QLabel("启用键值覆盖"), 0, 0)
         self.container.addWidget(self.enable_chk, 0, 1)
 
-        self.container.addWidget(QLabel("Enable on layers"), 1, 0)
+        self.container.addWidget(QLabel("键值覆盖有效层"), 1, 0)
         self.container.addWidget(self.layers, 1, 1)
 
-        self.container.addWidget(QLabel("Trigger"), 2, 0)
+        self.container.addWidget(QLabel("触发键值"), 2, 0)
         self.container.addWidget(self.trigger_key, 2, 1)
 
-        self.container.addWidget(QLabel("Trigger mods"), 3, 0)
+        self.container.addWidget(QLabel("触发修饰键"), 3, 0)
         self.container.addWidget(self.trigger_mods, 3, 1)
 
-        self.container.addWidget(QLabel("Negative mods"), 4, 0)
+        self.container.addWidget(QLabel("失效修饰键"), 4, 0)
         self.container.addWidget(self.negative_mods, 4, 1)
 
-        self.container.addWidget(QLabel("Suppressed mods"), 5, 0)
+        self.container.addWidget(QLabel("禁用修饰键"), 5, 0)
         self.container.addWidget(self.suppressed_mods, 5, 1)
 
-        self.container.addWidget(QLabel("Replacement"), 6, 0)
+        self.container.addWidget(QLabel("输出键值"), 6, 0)
         self.container.addWidget(self.key_replacement, 6, 1)
 
-        self.container.addWidget(QLabel("Options"), 7, 0)
+        self.container.addWidget(QLabel("选项"), 7, 0)
         self.container.addWidget(self.options, 7, 1)
 
     def widget(self):

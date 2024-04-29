@@ -24,12 +24,12 @@ class Unlocker(QDialog):
 
         self.progress = QProgressBar()
 
-        layout.addWidget(QLabel(tr("Unlocker", "In order to proceed, the keyboard must be set into unlocked mode.\n"
-                                               "You should only perform this operation on computers that you trust.")))
-        layout.addWidget(QLabel(tr("Unlocker", "To exit this mode, you will need to replug the keyboard\n"
-                                               "or select Security->Lock from the menu.")))
-        layout.addWidget(QLabel(tr("Unlocker", "Press and hold the following keys until the progress bar "
-                                               "below fills up:")))
+        layout.addWidget(QLabel(tr("Unlocker", "为了继续操作，键盘必须设置为解锁模式."
+                                               "您应该只在您信任的计算机上执行此操作.")))
+        layout.addWidget(QLabel(tr("Unlocker", "要退出此模式，您需要重新插入键盘,"
+                                               "或从菜单中选择安全->锁定.")))
+        layout.addWidget(QLabel(tr("Unlocker", "按住以下按键，直到进度"
+                                               "100%时解锁:")))
 
         self.keyboard_reference = KeyboardWidget(layout_editor)
         self.keyboard_reference.set_enabled(False)

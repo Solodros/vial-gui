@@ -53,9 +53,9 @@ class MacroRecorder(BasicEditor):
         buttons = QHBoxLayout()
         buttons.addWidget(self.lbl_memory)
         buttons.addStretch()
-        self.btn_save = QPushButton(tr("MacroRecorder", "Save"))
+        self.btn_save = QPushButton(tr("MacroRecorder", "保存"))
         self.btn_save.clicked.connect(self.on_save)
-        btn_revert = QPushButton(tr("MacroRecorder", "Revert"))
+        btn_revert = QPushButton(tr("MacroRecorder", "恢复"))
         btn_revert.clicked.connect(self.on_revert)
         buttons.addWidget(self.btn_save)
         buttons.addWidget(btn_revert)
@@ -96,7 +96,7 @@ class MacroRecorder(BasicEditor):
     def update_tab_titles(self):
         macros = self.keyboard.macro.split(b"\x00")
         for x, w in enumerate(self.macro_tab_w[:self.keyboard.macro_count]):
-            title = "M{}".format(x)
+            title = "宏{}".format(x)
             if macros[x] != self.keyboard.macro_serialize(self.macro_tabs[x].actions()):
                 title += "*"
             self.tabs.setTabText(x, title)
@@ -150,7 +150,7 @@ class MacroRecorder(BasicEditor):
 
         data = self.serialize()
         memory = len(data)
-        self.lbl_memory.setText("Memory used by macros: {}/{}".format(memory, self.keyboard.macro_memory))
+        self.lbl_memory.setText("宏已使用空间:{}/{}".format(memory, self.keyboard.macro_memory))
         self.btn_save.setEnabled(data != self.keyboard.macro and memory <= self.keyboard.macro_memory)
         self.lbl_memory.setStyleSheet("QLabel { color: red; }" if memory > self.keyboard.macro_memory else "")
         self.update_tab_titles()

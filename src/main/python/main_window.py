@@ -23,7 +23,7 @@ from keymaps import KEYMAPS
 from editor.layout_editor import LayoutEditor
 from editor.macro_recorder import MacroRecorder
 from editor.qmk_settings import QmkSettings
-from editor.rgb_configurator import RGBConfigurator
+from editor.rgb_configurator import RGBConfigurator, IndicatorConfigurator
 from tabbed_keycodes import TabbedKeycodes
 from editor.tap_dance import TapDance
 from unlocker import Unlocker
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
 
         self.btn_refresh_devices = QToolButton()
         self.btn_refresh_devices.setToolButtonStyle(Qt.ToolButtonTextOnly)
-        self.btn_refresh_devices.setText(tr("MainWindow", "Refresh"))
+        self.btn_refresh_devices.setText(tr("MainWindow", "刷新"))
         self.btn_refresh_devices.clicked.connect(self.on_click_refresh)
 
         layout_combobox = QHBoxLayout()
@@ -80,11 +80,11 @@ class MainWindow(QMainWindow):
         self.qmk_settings = QmkSettings()
         self.matrix_tester = MatrixTest(self.layout_editor)
         self.rgb_configurator = RGBConfigurator()
-
-        self.editors = [(self.keymap_editor, "Keymap"), (self.layout_editor, "Layout"), (self.macro_recorder, "Macros"),
-                        (self.rgb_configurator, "Lighting"), (self.tap_dance, "Tap Dance"), (self.combos, "Combos"),
-                        (self.key_override, "Key Overrides"), (self.qmk_settings, "QMK Settings"),
-                        (self.matrix_tester, "Matrix tester"), (self.firmware_flasher, "Firmware updater")]
+        self.indicator_configurator = IndicatorConfigurator()
+        self.editors = [(self.keymap_editor, "键位映射"), (self.layout_editor, "键盘布局"), (self.macro_recorder, "宏功能"),
+                        (self.rgb_configurator, "灯光控制"), (self.indicator_configurator, "指示灯"), (self.tap_dance, "按键复用"), (self.combos, "组合键"),
+                        (self.key_override, "键值覆盖"), (self.qmk_settings, "QMK设置"),
+                        (self.matrix_tester, "矩阵测试"), (self.firmware_flasher, "固件更新")]
 
         Unlocker.global_layout_editor = self.layout_editor
         Unlocker.global_main_window = self
@@ -94,8 +94,8 @@ class MainWindow(QMainWindow):
         self.tabs.currentChanged.connect(self.on_tab_changed)
         self.refresh_tabs()
 
-        no_devices = 'No devices detected. Connect a Vial-compatible device and press "Refresh"<br>' \
-                     'or select "File" → "Download VIA definitions" in order to enable support for VIA keyboards.'
+        no_devices = '没有设备连接. 连接Vial兼容的设备并点击“刷新”按钮<br>' \
+                     '或者打开文件菜单" → "加载Via布局" 来支持Via设备.'
         if sys.platform.startswith("linux"):
             no_devices += '<br><br>On Linux you need to set up a custom udev rule for keyboards to be detected. ' \
                           'Follow the instructions linked below:<br>' \
@@ -145,29 +145,29 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(100, vialglue.notify_ready)
 
     def init_menu(self):
-        layout_load_act = QAction(tr("MenuFile", "Load saved layout..."), self)
+        layout_load_act = QAction(tr("MenuFile", "加载保存的布局"), self)
         layout_load_act.setShortcut("Ctrl+O")
         layout_load_act.triggered.connect(self.on_layout_load)
 
-        layout_save_act = QAction(tr("MenuFile", "Save current layout..."), self)
+        layout_save_act = QAction(tr("MenuFile", "保存当前布局"), self)
         layout_save_act.setShortcut("Ctrl+S")
         layout_save_act.triggered.connect(self.on_layout_save)
 
-        sideload_json_act = QAction(tr("MenuFile", "Sideload VIA JSON..."), self)
+        sideload_json_act = QAction(tr("MenuFile", "加载Via文件"), self)
         sideload_json_act.triggered.connect(self.on_sideload_json)
 
-        download_via_stack_act = QAction(tr("MenuFile", "Download VIA definitions"), self)
+        download_via_stack_act = QAction(tr("MenuFile", "下载Via文件"), self)
         download_via_stack_act.triggered.connect(self.load_via_stack_json)
 
-        load_dummy_act = QAction(tr("MenuFile", "Load dummy JSON..."), self)
+        load_dummy_act = QAction(tr("MenuFile", "加载测试文件..."), self)
         load_dummy_act.triggered.connect(self.on_load_dummy)
 
-        exit_act = QAction(tr("MenuFile", "Exit"), self)
+        exit_act = QAction(tr("MenuFile", "退出"), self)
         exit_act.setShortcut("Ctrl+Q")
         exit_act.triggered.connect(self.close)
 
         if sys.platform != "emscripten":
-            file_menu = self.menuBar().addMenu(tr("Menu", "File"))
+            file_menu = self.menuBar().addMenu(tr("Menu", "文件"))
             file_menu.addAction(layout_load_act)
             file_menu.addAction(layout_save_act)
             file_menu.addSeparator()
@@ -177,19 +177,19 @@ class MainWindow(QMainWindow):
             file_menu.addSeparator()
             file_menu.addAction(exit_act)
 
-        keyboard_unlock_act = QAction(tr("MenuSecurity", "Unlock"), self)
+        keyboard_unlock_act = QAction(tr("MenuSecurity", "解锁"), self)
         keyboard_unlock_act.setShortcut("Ctrl+U")
         keyboard_unlock_act.triggered.connect(self.unlock_keyboard)
 
-        keyboard_lock_act = QAction(tr("MenuSecurity", "Lock"), self)
+        keyboard_lock_act = QAction(tr("MenuSecurity", "锁定"), self)
         keyboard_lock_act.setShortcut("Ctrl+L")
         keyboard_lock_act.triggered.connect(self.lock_keyboard)
 
-        keyboard_reset_act = QAction(tr("MenuSecurity", "Reboot to bootloader"), self)
+        keyboard_reset_act = QAction(tr("MenuSecurity", "重启至引导加载程序"), self)
         keyboard_reset_act.setShortcut("Ctrl+B")
         keyboard_reset_act.triggered.connect(self.reboot_to_bootloader)
 
-        keyboard_layout_menu = self.menuBar().addMenu(tr("Menu", "Keyboard layout"))
+        keyboard_layout_menu = self.menuBar().addMenu(tr("Menu", "键盘布局"))
         keymap_group = QActionGroup(self)
         selected_keymap = self.settings.value("keymap")
         for idx, keymap in enumerate(KEYMAPS):
@@ -205,14 +205,15 @@ class MainWindow(QMainWindow):
         if keymap_group.checkedAction() is None:
             keymap_group.actions()[0].setChecked(True)
 
-        self.security_menu = self.menuBar().addMenu(tr("Menu", "Security"))
+        self.security_menu = self.menuBar().addMenu(tr("Menu", "安全"))
         self.security_menu.addAction(keyboard_unlock_act)
         self.security_menu.addAction(keyboard_lock_act)
         self.security_menu.addSeparator()
         self.security_menu.addAction(keyboard_reset_act)
 
+
         if sys.platform != "emscripten":
-            self.theme_menu = self.menuBar().addMenu(tr("Menu", "Theme"))
+            self.theme_menu = self.menuBar().addMenu(tr("Menu", "主题"))
             theme_group = QActionGroup(self)
             selected_theme = self.get_theme()
             for name, _ in [("System", None)] + themes.themes:
@@ -226,11 +227,12 @@ class MainWindow(QMainWindow):
             if theme_group.checkedAction() is None:
                 theme_group.actions()[0].setChecked(True)
 
-        about_vial_act = QAction(tr("MenuAbout", "About Vial..."), self)
+
+        about_vial_act = QAction(tr("MenuAbout", "关于 Vial-CN..."), self)
         about_vial_act.triggered.connect(self.about_vial)
         self.about_keyboard_act = QAction("", self)
         self.about_keyboard_act.triggered.connect(self.about_keyboard)
-        self.about_menu = self.menuBar().addMenu(tr("Menu", "About"))
+        self.about_menu = self.menuBar().addMenu(tr("Menu", "关于"))
         self.about_menu.addAction(self.about_keyboard_act)
         self.about_menu.addAction(about_vial_act)
 
@@ -282,14 +284,15 @@ class MainWindow(QMainWindow):
         try:
             self.autorefresh.select_device(self.combobox_devices.currentIndex())
         except ProtocolError:
-            QMessageBox.warning(self, "", "Unsupported protocol version!\n"
-                                          "Please download latest Vial from https://get.vial.today/")
+            QMessageBox.warning(self, "", "不支持的Vial接口版本!\n"
+                                          "请从官网下载最新版本 https://get.vial.today/")
 
         if isinstance(self.autorefresh.current_device, VialKeyboard):
             keyboard_id = self.autorefresh.current_device.keyboard.keyboard_id
             if (keyboard_id in EXAMPLE_KEYBOARDS) or ((keyboard_id & 0xFFFFFFFFFFFFFF) == EXAMPLE_KEYBOARD_PREFIX):
-                QMessageBox.warning(self, "", "An example keyboard UID was detected.\n"
-                                              "Please change your keyboard UID to be unique before you ship!")
+              QMessageBox.warning(self, "", "示例的测试键盘已连接.\n"
+                                            "在发布之前,请将键盘UID更改为唯一的!")
+
 
         self.rebuild()
         self.refresh_tabs()
@@ -300,7 +303,7 @@ class MainWindow(QMainWindow):
 
         self.about_keyboard_act.setVisible(False)
         if isinstance(self.autorefresh.current_device, VialKeyboard):
-            self.about_keyboard_act.setText("About {}...".format(self.autorefresh.current_device.title()))
+            self.about_keyboard_act.setText("关于{}...".format(self.autorefresh.current_device.title()))
             self.about_keyboard_act.setVisible(True)
 
         # if unlock process was interrupted, we must finish it first
@@ -310,7 +313,7 @@ class MainWindow(QMainWindow):
 
         for e in [self.layout_editor, self.keymap_editor, self.firmware_flasher, self.macro_recorder,
                   self.tap_dance, self.combos, self.key_override, self.qmk_settings, self.matrix_tester,
-                  self.rgb_configurator]:
+                  self.rgb_configurator, self.indicator_configurator]:
             e.rebuild(self.autorefresh.current_device)
 
     def refresh_tabs(self):
@@ -392,7 +395,7 @@ class MainWindow(QMainWindow):
         themes.Theme.set_theme(theme)
         self.settings.setValue("theme", theme)
         msg = QMessageBox()
-        msg.setText(tr("MainWindow", "In order to fully apply the theme you should restart the application."))
+        msg.setText(tr("MainWindow", "请重启应用以便完全应用主题."))
         msg.exec_()
 
     def on_tab_changed(self, index):
@@ -410,9 +413,9 @@ class MainWindow(QMainWindow):
         self.current_tab = new_tab
 
     def about_vial(self):
-        title = "About Vial"
-        text = 'Vial {}<br><br>Python {}<br>Qt {}<br><br>' \
-               'Licensed under the terms of the<br>GNU General Public License (version 2 or later)<br><br>' \
+        title = "关于Vial-CN"
+        text = 'Vial-CN {}<br><br>Python {}<br>Qt {}<br><br>' \
+               '根据GNU通用公共许可证(版本2或更高版本)的条款授权。<br><br>' \
                '<a href="https://get.vial.today/">https://get.vial.today/</a>' \
                .format(qApp.applicationVersion(),
                        platform.python_version(), QT_VERSION_STR)
@@ -426,6 +429,7 @@ class MainWindow(QMainWindow):
         else:
             QMessageBox.about(self, title, text)
 
+            
     def about_keyboard(self):
         self.about_dialog = AboutKeyboard(self.autorefresh.current_device)
         self.about_dialog.setModal(True)

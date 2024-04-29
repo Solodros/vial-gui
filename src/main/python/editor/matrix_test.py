@@ -22,8 +22,8 @@ class MatrixTest(BasicEditor):
         self.keyboardWidget = KeyboardWidget(layout_editor)
         self.keyboardWidget.set_enabled(False)
 
-        self.unlock_btn = QPushButton("Unlock")
-        self.reset_btn = QPushButton("Reset")
+        self.unlock_btn = QPushButton("解锁")
+        self.reset_btn = QPushButton("重置")
 
         layout = QVBoxLayout()
         layout.addWidget(self.keyboardWidget)
@@ -33,7 +33,7 @@ class MatrixTest(BasicEditor):
 
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
-        self.unlock_lbl = QLabel(tr("MatrixTest", "Unlock the keyboard before testing:"))
+        self.unlock_lbl = QLabel(tr("MatrixTest", "请在测试前解锁键盘:"))
         btn_layout.addWidget(self.unlock_lbl)
         btn_layout.addWidget(self.unlock_btn)
         btn_layout.addWidget(self.reset_btn)
@@ -107,25 +107,29 @@ class MatrixTest(BasicEditor):
         except (RuntimeError, ValueError):
             self.timer.stop()
             return
+          
+        try:
+            # Calculate the amount of bytes belong to 1 row, each bit is 1 key, so per 8 keys in a row,
+            # a byte is needed for the row.
+            row_size = math.ceil(cols / 8)
 
-        # Calculate the amount of bytes belong to 1 row, each bit is 1 key, so per 8 keys in a row,
-        # a byte is needed for the row.
-        row_size = math.ceil(cols / 8)
+            for row in range(rows):
+                # Make slice of bytes for the row (skip first 2 bytes, they're for VIAL)
+                row_data_start = 2 + (row * row_size)
+                row_data_end = row_data_start + row_size
+                row_data = data[row_data_start:row_data_end]
 
-        for row in range(rows):
-            # Make slice of bytes for the row (skip first 2 bytes, they're for VIAL)
-            row_data_start = 2 + (row * row_size)
-            row_data_end = row_data_start + row_size
-            row_data = data[row_data_start:row_data_end]
-
-            # Get each bit representing pressed state for col
-            for col in range(cols):
-                # row_data is array of bytes, calculate in which byte the col is located
-                col_byte = len(row_data) - 1 - math.floor(col / 8)
-                # since we select a single byte as slice of byte, mod 8 to get nth pos of byte
-                col_mod = (col % 8)
-                # write to matrix array
-                matrix[row][col] = (row_data[col_byte] >> col_mod) & 1
+                # Get each bit representing pressed state for col
+                for col in range(cols):
+                    # row_data is array of bytes, calculate in which byte the col is located
+                    col_byte = len(row_data) - 1 - math.floor(col / 8)
+                    # since we select a single byte as slice of byte, mod 8 to get nth pos of byte
+                    col_mod = (col % 8)
+                    # write to matrix array
+                    matrix[row][col] = (row_data[col_byte] >> col_mod) & 1
+        except (RuntimeError, IndexError):
+            self.timer.stop()
+            return
 
         # write matrix state to keyboard widget
         for w in self.keyboardWidget.widgets:

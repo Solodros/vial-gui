@@ -7,15 +7,7 @@ from collections import OrderedDict
 from keycodes.keycodes import RESET_KEYCODE, Keycode, recreate_keyboard_keycodes
 from kle_serial import Serial as KleSerial
 from protocol.combo import ProtocolCombo
-from protocol.constants import CMD_VIA_GET_PROTOCOL_VERSION, CMD_VIA_GET_KEYBOARD_VALUE, CMD_VIA_SET_KEYBOARD_VALUE, \
-    CMD_VIA_SET_KEYCODE, CMD_VIA_LIGHTING_SET_VALUE, CMD_VIA_LIGHTING_GET_VALUE, CMD_VIA_LIGHTING_SAVE, \
-    CMD_VIA_GET_LAYER_COUNT, CMD_VIA_KEYMAP_GET_BUFFER, CMD_VIA_VIAL_PREFIX, VIA_LAYOUT_OPTIONS, \
-    VIA_SWITCH_MATRIX_STATE, QMK_BACKLIGHT_BRIGHTNESS, QMK_BACKLIGHT_EFFECT, QMK_RGBLIGHT_BRIGHTNESS, \
-    QMK_RGBLIGHT_EFFECT, QMK_RGBLIGHT_EFFECT_SPEED, QMK_RGBLIGHT_COLOR, VIALRGB_GET_INFO, VIALRGB_GET_MODE, \
-    VIALRGB_GET_SUPPORTED, VIALRGB_SET_MODE, CMD_VIAL_GET_KEYBOARD_ID, CMD_VIAL_GET_SIZE, CMD_VIAL_GET_DEFINITION, \
-    CMD_VIAL_GET_ENCODER, CMD_VIAL_SET_ENCODER, CMD_VIAL_GET_UNLOCK_STATUS, CMD_VIAL_UNLOCK_START, CMD_VIAL_UNLOCK_POLL, \
-    CMD_VIAL_LOCK, CMD_VIAL_QMK_SETTINGS_QUERY, CMD_VIAL_QMK_SETTINGS_GET, CMD_VIAL_QMK_SETTINGS_SET, \
-    CMD_VIAL_QMK_SETTINGS_RESET, BUFFER_FETCH_CHUNK, VIAL_PROTOCOL_QMK_SETTINGS
+from protocol.constants import *
 from protocol.dynamic import ProtocolDynamic
 from protocol.key_override import ProtocolKeyOverride
 from protocol.macro import ProtocolMacro
@@ -53,9 +45,26 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
         self.vibl = False
         self.custom_keycodes = None
         self.midi = None
-
+        self.dial = False
+        self.rgb_matrix_control = None
+        self.underglow_rgb_matrix = None
+        self.rgb_indicators = None
+        self.logo_rgb = False
+        self.logo_rgb_enable = self.key_rgb_enable = self.underglow_rgb_enable = -1
+        self.indicator_override = 0
         self.lighting_qmk_rgblight = self.lighting_qmk_backlight = self.lighting_vialrgb = False
 
+        #indicator
+        self.num_lock_led = self.num_lock_mode = 0
+        self.caps_lock_led = self.caps_lock_mode = 0
+        self.scroll_lock_led = self.scroll_lock_mode = 0
+        self.num_lock_hsv = self.caps_lock_hsv = self.scroll_lock_hsv = (0, 0, 0)
+        self.num_lock_all_led = self.caps_lock_all_led = self.scroll_lock_all_led = 0
+        self.num_lock_key_led = self.caps_lock_key_led = self.scroll_lock_key_led = 0
+        self.num_lock_underglow_led = self.caps_lock_underglow_led = self.scroll_lock_underglow_led = 0
+        self.num_lock_logo_led = self.caps_lock_logo_led = self.scroll_lock_logo_led = 0
+        self.indicator_led_num = 0
+        self.ind_supported_effects = set()
         # underglow
         self.underglow_brightness = self.underglow_effect = self.underglow_effect_speed = -1
         self.underglow_color = (0, 0)
@@ -65,6 +74,10 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
         self.rgb_mode = self.rgb_speed = self.rgb_version = self.rgb_maximum_brightness = -1
         self.rgb_hsv = (0, 0, 0)
         self.rgb_supported_effects = set()
+        # vialugrgb
+        self.ug_rgb_mode = self.ug_rgb_speed = self.ug_rgb_maximum_brightness = -1
+        self.ug_rgb_hsv = (0, 0, 0)
+        self.ug_rgb_supported_effects = set()
 
         self.via_protocol = self.vial_protocol = self.keyboard_id = -1
 
@@ -149,6 +162,10 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
             vial = payload["vial"]
             self.vibl = vial.get("vibl", False)
             self.midi = vial.get("midi", None)
+            self.dial = vial.get("dial", False)
+            self.rgb_matrix_control = vial.get("rgb_matrix_control", None)
+            self.underglow_rgb_matrix = vial.get("underglow_rgb_matrix", None)
+            self.rgb_indicators = vial.get("rgb_indicators", None)
 
         self.layout_labels = payload["layouts"].get("labels")
 
@@ -244,7 +261,8 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
                 raise RuntimeError("Unsupported VialRGB protocol ({}), update your Vial version to latest"
                                    .format(self.rgb_version))
             self.rgb_maximum_brightness = data[2]
-
+            if data[3] == 17:
+                self.logo_rgb = True
             self.rgb_supported_effects = {0}
             max_effect = 0
             while max_effect < 0xFFFF:
@@ -255,6 +273,52 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
                     if value != 0xFFFF:
                         self.rgb_supported_effects.add(value)
                     max_effect = max(max_effect, value)
+        if self.underglow_rgb_matrix == "advanced":
+            data = self.usb_send(self.dev, struct.pack("BB", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_UNDERGLOW_INFO),
+                                 retries=20)[2:]
+            self.ug_rgb_maximum_brightness = data[2]
+            self.ug_rgb_supported_effects = {0}
+            max_effect = 0
+            while max_effect < 0xFFFF:
+                data = self.usb_send(self.dev, struct.pack("<BBH", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_UNDERGLOW_SUPPORTED,
+                                                            max_effect))[2:]
+                for x in range(0, len(data), 2):
+                    value = int.from_bytes(data[x:x+2], byteorder="little")
+                    if value != 0xFFFF:
+                        self.ug_rgb_supported_effects.add(value)
+                    max_effect = max(max_effect, value)
+
+        if self.rgb_indicators == "advanced":
+            data = self.usb_send(self.dev, struct.pack("BB", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_IND_INFO),
+                                 retries=20)[2:]
+            self.num_lock_all_led = data[0]
+            self.caps_lock_all_led = data[1]
+            self.scroll_lock_all_led = data[2]
+            self.num_lock_led = data[3]
+            self.caps_lock_led = data[4]
+            self.scroll_lock_led = data[5]
+            self.indicator_led_num = data[6]
+            self.num_lock_key_led = data[7]
+            self.caps_lock_key_led = data[8]
+            self.scroll_lock_key_led = data[9]
+            self.num_lock_underglow_led = data[10]
+            self.caps_lock_underglow_led = data[11]
+            self.scroll_lock_underglow_led = data[12]
+            if self.logo_rgb == True:
+                self.num_lock_logo_led = data[13]
+                self.caps_lock_logo_led = data[14]
+                self.scroll_lock_logo_led = data[15]
+            self.ind_supported_effects = {0}
+            max_effect = 0
+            while max_effect < 0xFFFF:
+                data = self.usb_send(self.dev, struct.pack("<BBH", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_IND_SUPPORTED,
+                                                            max_effect))[2:]
+                for x in range(0, len(data), 2):
+                    value = int.from_bytes(data[x:x+2], byteorder="little")
+                    if value != 0xFFFF:
+                        self.ind_supported_effects.add(value)
+                    max_effect = max(max_effect, value)
+
 
     def reload_rgb(self):
         if self.lighting_qmk_rgblight:
@@ -274,13 +338,38 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
                 self.dev, struct.pack(">BB", CMD_VIA_LIGHTING_GET_VALUE, QMK_BACKLIGHT_BRIGHTNESS), retries=20)[2]
             self.backlight_effect = self.usb_send(
                 self.dev, struct.pack(">BB", CMD_VIA_LIGHTING_GET_VALUE, QMK_BACKLIGHT_EFFECT), retries=20)[2]
-
+        
         if self.lighting_vialrgb:
             data = self.usb_send(self.dev, struct.pack("BB", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_MODE),
                                  retries=20)[2:]
             self.rgb_mode = int.from_bytes(data[0:2], byteorder="little")
             self.rgb_speed = data[2]
             self.rgb_hsv = (data[3], data[4], data[5])
+        if self.rgb_matrix_control == "advanced":
+            self.underglow_rgb_enable = data[6]
+            self.key_rgb_enable = data[7]
+            if self.logo_rgb == True: 
+                self.logo_rgb_enable = data[8]
+            else:
+                self.logo_rgb_enable = 0
+            self.indicator_override = data[9]
+
+        if self.underglow_rgb_matrix == "advanced":
+            data = self.usb_send(self.dev, struct.pack("BB", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_UNDERGLOW_MODE),
+                                 retries=20)[2:]
+            self.ug_rgb_mode = int.from_bytes(data[0:2], byteorder="little")
+            self.ug_rgb_speed = data[2]
+            self.ug_rgb_hsv = (data[3], data[4], data[5])
+
+        if self.rgb_indicators == "advanced":
+            data = self.usb_send(self.dev, struct.pack("BB", CMD_VIA_LIGHTING_GET_VALUE, VIALRGB_GET_IND_MODE),
+                                 retries=20)[2:]
+            self.num_lock_mode = int.from_bytes(data[0:2], byteorder="little")
+            self.caps_lock_mode = int.from_bytes(data[2:4], byteorder="little")
+            self.scroll_lock_mode = int.from_bytes(data[4:6], byteorder="little")
+            self.num_lock_hsv = (data[6], data[7], data[8])
+            self.caps_lock_hsv = (data[9], data[10], data[11])
+            self.scroll_lock_hsv = (data[12], data[13], data[14])
 
     def reload_settings(self):
         self.settings = dict()
@@ -363,6 +452,9 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
 
     def save_rgb(self):
         self.usb_send(self.dev, struct.pack(">B", CMD_VIA_LIGHTING_SAVE), retries=20)
+
+    def save_rgb_indicators(self):
+        self.usb_send(self.dev, struct.pack(">BB", CMD_VIA_LIGHTING_SAVE, DYNAMIC_RGB_INDICATORS_SAVE), retries=20)
 
     def save_layout(self):
         """ Serializes current layout to a binary """
@@ -536,3 +628,155 @@ class Keyboard(ProtocolMacro, ProtocolDynamic, ProtocolTapDance, ProtocolCombo, 
     def set_vialrgb_color(self, h, s, v):
         self.rgb_hsv = (h, s, v)
         self._vialrgb_set_mode()
+
+    def _ugrgb_set_mode(self):
+        self.usb_send(self.dev, struct.pack("BBHBBBB", CMD_VIA_LIGHTING_SET_VALUE, VIALRGB_SET_UNDERGLOW_MODE,
+                                            self.ug_rgb_mode, self.ug_rgb_speed,
+                                            self.ug_rgb_hsv[0], self.ug_rgb_hsv[1], self.ug_rgb_hsv[2]))
+
+    def set_ugrgb_brightness(self, value):
+        self.ug_rgb_hsv = (self.ug_rgb_hsv[0], self.ug_rgb_hsv[1], value)
+        self._ugrgb_set_mode()
+
+    def set_ugrgb_speed(self, value):
+        self.ug_rgb_speed = value
+        self._ugrgb_set_mode()
+
+    def set_ugrgb_mode(self, value):
+        self.ug_rgb_mode = value
+        self._ugrgb_set_mode()
+
+    def set_ugrgb_color(self, h, s, v):
+        self.ug_rgb_hsv = (h, s, v)
+        self._ugrgb_set_mode()
+
+    def _rgb_control_set_mode(self):
+        self.usb_send(self.dev, struct.pack("BBBBBB", CMD_VIA_LIGHTING_SET_VALUE, VIALRGB_SET_CONTROLLER_MODE,
+                                            self.underglow_rgb_enable, self.key_rgb_enable, self.logo_rgb_enable, self.indicator_override))
+    
+    def set_key_rgb(self, value):
+        self.key_rgb_enable = value
+        self._rgb_control_set_mode()
+    
+    def set_underglow_rgb(self, value):
+        self.underglow_rgb_enable = value
+        self._rgb_control_set_mode()
+    
+    def set_logo_rgb(self, value):
+        self.logo_rgb_enable = value
+        self._rgb_control_set_mode()
+
+    def set_indicator_override(self, value):
+        self.indicator_override = value
+        self._rgb_control_set_mode()
+
+    def _rgb_indicators_set_mode(self):
+        self.usb_send(self.dev, struct.pack("BBHHHBBBBBBBBB", CMD_VIA_LIGHTING_SET_VALUE, VIALRGB_SET_IND_MODE,
+                                            self.num_lock_mode, self.caps_lock_mode, self.scroll_lock_mode,
+                                            self.num_lock_hsv[0], self.num_lock_hsv[1], self.num_lock_hsv[2],
+                                            self.caps_lock_hsv[0], self.caps_lock_hsv[1], self.caps_lock_hsv[2],
+                                            self.scroll_lock_hsv[0], self.scroll_lock_hsv[1], self.scroll_lock_hsv[2]))
+
+    def _rgb_indicators_set_led(self):
+        self.usb_send(self.dev, struct.pack("BBBBBBBBBBBBBBBBB", CMD_VIA_LIGHTING_SET_VALUE, VIALRGB_SET_IND_LED,
+                                            self.num_lock_all_led, self.caps_lock_all_led, self.scroll_lock_all_led,
+                                            self.num_lock_led, self.caps_lock_led, self.scroll_lock_led, 
+                                            self.num_lock_key_led, self.caps_lock_key_led, self.scroll_lock_key_led,
+                                            self.num_lock_underglow_led, self.caps_lock_underglow_led, self.scroll_lock_underglow_led,
+                                            self.num_lock_logo_led, self.caps_lock_logo_led, self.scroll_lock_logo_led))
+    
+    def set_num_lock_brightness(self, value):
+        self.num_lock_hsv = (self.num_lock_hsv[0], self.num_lock_hsv[1], value)
+        self._rgb_indicators_set_mode()
+
+    def set_num_lock_mode(self, value):
+        self.num_lock_mode = value
+        self._rgb_indicators_set_mode()
+
+    def set_num_lock_color(self, h, s, v):
+        self.num_lock_hsv = (h, s, v)
+        self._rgb_indicators_set_mode()
+
+    def set_num_lock_all_led(self, value):
+        self.num_lock_all_led = value
+        self._rgb_indicators_set_led()
+
+    def set_num_lock_key_led(self, value):
+        self.num_lock_key_led = value
+        self._rgb_indicators_set_led()
+
+    def set_num_lock_underglow_led(self, value):
+        self.num_lock_underglow_led = value
+        self._rgb_indicators_set_led()
+
+    def set_num_lock_logo_led(self, value):
+        self.num_lock_logo_led = value
+        self._rgb_indicators_set_led()
+    
+    def set_num_lock_led(self, value):
+        self.num_lock_led = value
+        self._rgb_indicators_set_led()
+
+    def set_caps_lock_brightness(self, value):
+        self.caps_lock_hsv = (self.caps_lock_hsv[0], self.caps_lock_hsv[1], value)
+        self._rgb_indicators_set_mode()
+
+    def set_caps_lock_mode(self, value):
+        self.caps_lock_mode = value
+        self._rgb_indicators_set_mode()
+
+    def set_caps_lock_color(self, h, s, v):
+        self.caps_lock_hsv = (h, s, v)
+        self._rgb_indicators_set_mode()
+
+    def set_caps_lock_all_led(self, value):
+        self.caps_lock_all_led = value
+        self._rgb_indicators_set_led()
+
+    def set_caps_lock_key_led(self, value):
+        self.caps_lock_key_led = value
+        self._rgb_indicators_set_led()
+
+    def set_caps_lock_underglow_led(self, value):
+        self.caps_lock_underglow_led = value
+        self._rgb_indicators_set_led()
+
+    def set_caps_lock_logo_led(self, value):
+        self.caps_lock_logo_led = value
+        self._rgb_indicators_set_led()
+    
+    def set_caps_lock_led(self, value):
+        self.caps_lock_led = value
+        self._rgb_indicators_set_led()
+
+    def set_scroll_lock_brightness(self, value):
+        self.scroll_lock_hsv = (self.scroll_lock_hsv[0], self.scroll_lock_hsv[1], value)
+        self._rgb_indicators_set_mode()
+
+    def set_scroll_lock_mode(self, value):
+        self.scroll_lock_mode = value
+        self._rgb_indicators_set_mode()
+
+    def set_scroll_lock_color(self, h, s, v):
+        self.scroll_lock_hsv = (h, s, v)
+        self._rgb_indicators_set_mode()
+
+    def set_scroll_lock_all_led(self, value):
+        self.scroll_lock_all_led = value
+        self._rgb_indicators_set_led()
+
+    def set_scroll_lock_key_led(self, value):
+        self.scroll_lock_key_led = value
+        self._rgb_indicators_set_led()
+
+    def set_scroll_lock_underglow_led(self, value):
+        self.scroll_lock_underglow_led = value
+        self._rgb_indicators_set_led()
+
+    def set_scroll_lock_logo_led(self, value):
+        self.scroll_lock_logo_led = value
+        self._rgb_indicators_set_led()
+    
+    def set_scroll_lock_led(self, value):
+        self.scroll_lock_led = value
+        self._rgb_indicators_set_led()
