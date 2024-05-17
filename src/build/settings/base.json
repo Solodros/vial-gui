@@ -1,6 +1,5 @@
 {
-    "app_name": "Vial",
-    "organization_name": "Vial-kb",
+    "app_name": "Vial-CN",
     "author": "Solodros",
     "main_module": "src/main/python/main.py",
     "version": "0.7.1"

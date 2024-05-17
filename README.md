@@ -19,7 +19,7 @@ Visit https://get.vial.today/ to download a binary release of Vial.
 
 #### Development
 
-Python 3.12 is recommended.
+Python 3.6 is recommended (3.6 is the latest version that is officially supported by `fbs`).
 
 Install dependencies:
 
@@ -33,6 +33,5 @@ To launch the application afterwards:
 
 ```
 source venv/bin/activate
-pyinstaller misc/Vial.spec
-./dist/Vial/Vial
+fbs run
 ```
