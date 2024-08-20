@@ -1,10 +1,11 @@
 from keycodes.keycodes import Keycode
-from keymap import brazilian, canadian_csa, danish, eurkey, french, german, hebrew, hungarian, japanese, latam, norwegian, russian, slovak, spanish, swedish, swedish_swerty, swiss, croatian
+from keymap import brazilian, canadian_csa, colemak, danish, eurkey, french, german, hebrew, hungarian, italian, japanese, latam, norwegian, russian, slovak, spanish, swedish, swedish_swerty, swiss, turkish, croatian
 
 KEYMAPS = [
     ("QWERTY", dict()),
     ("巴西(QWERTY)", brazilian.keymap),
     ("加拿大CSA(QWERTY)", canadian_csa.keymap),
+    ("Colemak", colemak.keymap),
     ("克罗地亚(QWERTZ)", croatian.keymap),
     ("丹麦(QWERTY)", danish.keymap),
     ("欧盟(QWERTY)", eurkey.keymap),
@@ -13,6 +14,7 @@ KEYMAPS = [
     ("德国(QWERTZ)", german.keymap),
     ("以色列(Standard)", hebrew.keymap),
     ("匈牙利(QWERTZ)", hungarian.keymap),
+    ("Italian (QWERTY)", italian.keymap),
     ("日本(QWERTY)", japanese.keymap),
     ("拉丁美洲(QWERTY)", latam.keymap),
     ("挪威(QWERTY)", norwegian.keymap),
@@ -21,7 +23,8 @@ KEYMAPS = [
     ("西班牙(QWERTY)", spanish.keymap),
     ("瑞典(QWERTY)", swedish.keymap),
     ("瑞典(SWERTY)", swedish_swerty.keymap),
-    ("瑞士(QWERTZ)", swiss.keymap)
+    ("瑞士(QWERTZ)", swiss.keymap),
+    ("Turkish (QWERTY)", turkish.keymap)
 
 ]
 
