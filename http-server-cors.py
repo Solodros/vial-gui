@@ -13,11 +13,12 @@ except ImportError: # Python 2
     from SimpleHTTPServer import SimpleHTTPRequestHandler
 
 class CORSRequestHandler (SimpleHTTPRequestHandler):
-    def end_headers (self):
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
-        self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
-        SimpleHTTPRequestHandler.end_headers(self)
+def end_headers(self):
+    self.send_header('Access-Control-Allow-Origin', '*')
+    # 删除以下两行
+    # self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
+    # self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
+    SimpleHTTPRequestHandler.end_headers(self)
 
 if __name__ == '__main__':
     test(CORSRequestHandler, HTTPServer)
